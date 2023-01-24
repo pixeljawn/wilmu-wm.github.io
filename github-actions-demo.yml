@@ -1,0 +1,305 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Gayathri:wght@400;700&family=Inter:wght@400;600&display=swap');
+
+@use postcss-nested;
+@use postcss-preset-env {
+  stage: 2;
+  browsers: ">5%, last 2 versions, not dead, not IE 11";
+}
+
+
+%button {
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  font: inherit;
+  line-height: inherit;
+}
+/* END POSTCSS */
+
+
+:root {
+  --color-primary: hsl(0, 3%, 94%);
+  --color-accent: hsl(340, 81%, 51%);
+  --white: hsl(0, 9%, 98%);
+  --accent-hover: hsl(336, 78%, 43%);
+  --font-fallback: BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-sans;
+  --base-font-size: 100%;
+  --ratio: 1.5;
+  --heading-line-height: 1.2;
+  --base: 1rem;
+
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-body: "Gayathri",var(--font-fallback);
+  --headings: "Inter", var(--font-fallback);
+  --type-body: var(--font-weight-normal) var(--base)/var(--ratio) var(--font-body);
+
+  --circle: 50%;
+
+  --smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
+    --button-padding: var(--szr-xs);
+  --button-color: var(--color-accent);
+}
+
+@supports (font: -apple-system-body) and (not (-webkit-touch-callout: default)) {
+  :root {font-size: 16px}
+}
+
+*,
+::after,
+::before {box-sizing: border-box}
+
+@media (prefers-reduced-motion) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* html {font-size: clamp(1rem, 0.75rem + 1.5vw, 2rem)} */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: calc(100vw - 4rem);
+  height: calc(100vh - 4rem);
+  background: hsl(208, 35%, 30%);
+  font: var(--type-body);
+  font-size: unset;
+  letter-spacing: 0.03ch;
+  margin: 2rem;
+  padding: 0;
+}
+
+:is(body) {color: white}
+:is(h1) {font-family: "Inter"}
+:is(h1, p) {margin-block: 0}
+:is(ul) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:where(button) {@extend %button}
+
+/* body > h1 + * {
+  -webkit-margin-before: clamp(1.56rem, 1.39rem + 0.85vw, 2rem);
+  margin-block-start: clamp(1.56rem, 1.39rem + 0.85vw, 2rem);
+} */
+
+h1 {
+font-size: 350%;
+}
+main:not(> h1) {
+  font-size: 130%;
+}
+@media (min-width:32em) {
+  h1  { font-size: 500%; }
+}
+
+@media (min-width:60em) {
+  h1  {
+    font-size: 600%;
+    /* Experimentalizationification */
+    /* width: 95vw; */
+    /* margin-left: calc(-50vw + 30rem); */
+  }
+}
+button {
+  @extend %button;
+  width: 3.125rem;
+    height: 3.125rem;
+
+  background: var(--button-color);
+  padding: var(--button-padding);
+  border-radius: var(--circle);
+  z-index: 100;
+  position: fixed;
+  left: var(--base);
+  bottom: var(--base);
+  transition: color 0.15s ease-in-out, background 0.15s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  &:active {
+    background: hsl(334, 79%, 38%);
+    transform: translateY(3px);
+    &::after {
+      box-shadow:
+    0px 7px 8px -4px rgba(0, 0, 0, 0.2),
+    0px 12px 17px 2px rgba(0, 0, 0, 0.14),
+    0px 5px 22px 4px rgba(0, 0, 0, 0.12);
+    }
+  }
+  &:hover {
+    background: var(--accent-hover);
+    color: var(--color-primary);
+    outline-offset: 3px;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: -4px;
+    background-color: transparent !important;
+    border-radius: var(--circle);
+    transform: scale(0.8);
+    transition: opacity 0.1s ease-in, transform 0.1s ease-in;
+    transition-duration: 0.1s, 0.1s;
+    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+  0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+  0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  }
+}
+
+button[aria-expanded="true"] {
+  svg {
+    .top {
+      transform: translateX(2px) rotate(45deg);
+    }
+    .mid {
+      fill: transparent;
+    }
+    .bot {
+      transform: translateX(-1px) rotate(-45deg);
+    }
+  }
+}
+a:focus {
+  background: var(--color-hover);
+  color: white;
+  text-decoration: none;
+  outline: 0;
+  transition: background var(--smooth);
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  ul {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    li {
+      flex: 1;
+      margin-block-end: 1px;
+      background: radial-gradient(circle at 50% 50%, hsl(349, 84%, 60%), hsl(349, 56%, 48%)) var(--x, 0)/ 200%;
+      &:hover {
+        --x: 100%;
+        will-change: transform;
+        transition: background 0.74s var(--smooth);
+        &::after {
+          transition: transform 150ms;
+          transform: scaleX(1);
+        }
+      }
+      a {
+        display: flex;
+        text-decoration: none;
+        background: #0000004d;
+        color: var(--color-primary);
+        justify-content: center;
+        margin-bottom: 1px;
+        height: 100%;
+        align-items: center;
+        cursor: pointer;
+        font-size: 2rem;
+        &:active {
+          border-bottom: 10px solid #0000004d;
+          transform: translateY(10px);
+        }
+        &:active:focus {
+          outline: none;
+          &::after {
+            content: "Use Shift+Tab then Esc to exit menu";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            font-size: 1rem;
+            text-align: center;
+            opacity: 1;
+            transition: opacity .3s ease;
+
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (--reduce-motion-reduce) {
+  nav li {
+    transition: none;
+  }
+}
+
+:focus:not(:focus-visible),
+:focus:not(:-moz-focusring) {
+    outline: var(--white) dashed 1px;
+}
+
+li:focus:not(:focus-visible),
+li:focus:not(:focus-visible) {
+  outline: transparent dashed 1px;
+}
+
+svg {
+  fill: currentColor;
+  rect {
+    transform-origin: 50% 50%;
+    transition: transform 0.3s var(--smooth);
+    fill: var(--color-primary);
+    height:6px;
+  }
+  .top {
+    transform: rotate(0deg) translateY(-24px);
+  }
+  .bot {
+    transform: rotate(0deg) translateY(24px);
+  }
+}
+
+.lead {
+  font-size: 1.2rem;
+}
+
+.overlay {
+  &.is--expanded + nav {
+    visibility: visible;
+    opacity: 1;
+    z-index: 50;
+    transition: opacity 0.9s;
+  }
+  + nav {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.9s;
+  }
+  position: fixed;
+  padding: var(--base);
+  background: var(--color-accent);
+  background-size: cover;
+  border-radius: var(--circle);
+  transform: scale(1);
+  transform-origin: 25% 75%;
+  transition: transform .02s, background-size .01s, opacity .01s .2s;
+  left: -100px;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0;
+}
+
+.is--expanded {
+  transform: scale(200);
+  z-index: 50;
+  opacity: 1;
+  transition: transform .9s, opacity .05s;
+}
